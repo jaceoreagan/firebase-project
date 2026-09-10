@@ -1,0 +1,31 @@
+name: Manual Pure Deploy to Firebase
+
+on: 
+  push: 
+    branches: 
+      -main
+
+jobs:
+  deploy_site:
+    runs-on: ubuntu-latest
+
+    steps:
+      # step 1: clone a repository onto the server
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      
+      # step 2: set up node.js runtime environment 
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+      # step 3: install firebase CLI directly onto the runner
+    - name: Install Firebase CLI
+      run: nmp install -g firebase-tools
+
+      # step 4: execute deployment command using the secret token
+    - name: Deploy to Firebase Hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: firebase deploy --only hosting --token "$FIREBASE_TOKEN"
+      
