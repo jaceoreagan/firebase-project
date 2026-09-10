@@ -3,7 +3,7 @@ name: Manual Pure Deploy to Firebase
 on: 
   push: 
     branches: 
-      -main
+      - main
 
 jobs:
   deploy_site:
