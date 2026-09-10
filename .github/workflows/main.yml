@@ -21,7 +21,7 @@ jobs:
         node-version: 20
       # step 3: install firebase CLI directly onto the runner
     - name: Install Firebase CLI
-      run: nmp install -g firebase-tools
+      run: npm install -g firebase-tools
 
       # step 4: execute deployment command using the secret token
     - name: Deploy to Firebase Hosting
