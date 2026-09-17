@@ -1,0 +1,25 @@
+{
+  "name": "firebase",
+  "version": "1.0.0",
+  "description": "this is my readme",
+  "homepage": "https://github.com/jaceoreagan/firebase-project#readme",
+  "bugs": {
+    "url": "https://github.com/jaceoreagan/firebase-project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaceoreagan/firebase-project.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "jest": "30.5.1",
+    "jest-environment-jsdom": "30.5.1",
+    "jsdom": "30.1.0"
+  }
+}

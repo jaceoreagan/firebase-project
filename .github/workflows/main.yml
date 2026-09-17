@@ -1,31 +1,45 @@
 name: Manual Pure Deploy to Firebase
 
-on: 
-  push: 
-    branches: 
+on:
+  push:
+    branches:
       - main
 
 jobs:
+  test: # run tests before deploying
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Tests
+        run: npm test
+
   deploy_site:
     runs-on: ubuntu-latest
-
+    needs: test # wont accidentally deploy if tests fail
     steps:
       # step 1: clone a repository onto the server
-    - name: Checkout Code
-      uses: actions/checkout@v4
-      
-      # step 2: set up node.js runtime environment 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-      # step 3: install firebase CLI directly onto the runner
-    - name: Install Firebase CLI
-      run: npm install -g firebase-tools
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      # step 4: execute deployment command using the secret token
-    - name: Deploy to Firebase Hosting
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      run: firebase deploy --only hosting --token "$FIREBASE_TOKEN"
-      
+        # step 2: set up node.js runtime environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+        # step 3: install firebase CLI directly onto the runner
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+        # step 4: execute deployment command using the secret token
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase deploy --only hosting --token "$FIREBASE_TOKEN"
